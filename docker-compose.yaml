@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+   app:
+    build: .
+    image: djborad/curd-demo:tagname 
+    container_name: crud-app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment: 
+      PG_HOST: db
+      PG_USERNAME: postgres
+      PG_PASSWORD: root
+      DATABASE: node_docker
+  
+
+   db:
+    image: postgres:15
+    environment:
+       POSTGRES_USER: postgres
+       POSTGRES_PASSWORD: root
+       POSTGRES_DB: node_docker
+       PG_HOST: db
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:

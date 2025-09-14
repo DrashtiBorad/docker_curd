@@ -12,9 +12,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag djborad/curd-demo:tagname
-      - name: push image to docker hub
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: djborad
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Build and Push Docker image
         run: |
-          docker login -u djborad -p ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+          docker build . --tag djborad/curd-demo:tagname
           docker push djborad/curd-demo:tagname
